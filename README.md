@@ -167,18 +167,18 @@ Download the full human proteome from [UniProt](http://www.uniprot.org/uniprot/?
 
 Using a script [`count_kmer_freq.py`](scripts/count_kmer_freq.py) I extracted the kmer frequency for all kmers present in the proteome with `k = [4, 6, 8, 10]`. The top 5 kmers for each are:
 
-| k = | 4    | 6      | 8        | 10         |
-|-----|:----:|:------:|:--------:|:----------:|
-|     | EEEE | HTGEKP | IHTGEKPY | QQQQQQQQQQ |
-|     | PPPP | TGEKPY | RIHTGEKP | IHTGEKPYKC |
-|     | AAAA | EEEEEE | QQQQQQQQ | HQRIHTGEKP |
-|     | SSSS | AAAAAA | HTGEKPYK | SSSSSSSSSS |
-|     | LLLL | IHTGEK | TGEKPYKC | EEEEEEEEEE |
-|     | HTGE | PPPPPP | EEEEEEEE | AAAAAAAAAA |
-|     | GEKP | ECGKAF | AAAAAAAA | QRIHTGEKPY |
-|     | TGEK | QQQQQQ | HTGEKPYE | KPYKCEECGK |
-|     | GGGG | SSSSSS | TGEKPYEC | YKCEECGKAF |
-|     | EKPY | EKPYKC | SSSSSSSS | HTGEKPYKCE |
+| k = 4  | 6        | 8          | 10           |
+|:------:|:--------:|:----------:|:------------:|
+| `EEEE` | `HTGEKP` | `IHTGEKPY` | `QQQQQQQQQQ` |
+| `PPPP` | `TGEKPY` | `RIHTGEKP` | `IHTGEKPYKC` |
+| `AAAA` | `EEEEEE` | `QQQQQQQQ` | `HQRIHTGEKP` |
+| `SSSS` | `AAAAAA` | `HTGEKPYK` | `SSSSSSSSSS` |
+| `LLLL` | `IHTGEK` | `TGEKPYKC` | `EEEEEEEEEE` |
+| `HTGE` | `PPPPPP` | `EEEEEEEE` | `AAAAAAAAAA` |
+| `GEKP` | `ECGKAF` | `AAAAAAAA` | `QRIHTGEKPY` |
+| `TGEK` | `QQQQQQ` | `HTGEKPYE` | `KPYKCEECGK` |
+| `GGGG` | `SSSSSS` | `TGEKPYEC` | `YKCEECGKAF` |
+| `EKPY` | `EKPYKC` | `SSSSSSSS` | `HTGEKPYKCE` |
 
 At each _k_ the distribution looks like this example from `k = 10`. Note: The y-axis is log scaled:
 ![](output/freqdist_k10.png)
