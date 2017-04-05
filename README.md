@@ -20,7 +20,7 @@ April 5, 2017:
 
 * PMD: Collect features to use for encoding the features.
 
-BLOSUM50 Matrix
+[BLOSUM50 Matrix](https://www.ncbi.nlm.nih.gov/IEB/ToolBox/C_DOC/lxr/source/data/BLOSUM50)
 
 |**+**|   A|   R|   N|   D|   C|   Q|   E|   G|   H|   I|   L|   K|   M|   F|   P|   S|   T|   W|   Y|   V|   B|   J|   Z|   X|   -|
 |-----|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -164,3 +164,21 @@ Again, missing pKa replaced with 50 in the table
 <!---|**P**| -46 |  -46 |--->
 
 Download the full human proteome from [UniProt](http://www.uniprot.org/uniprot/?query=reviewed%3Ayes+AND+proteome%3Aup000005640).
+
+Using a script [`count_kmer_freq.py`](scripts/count_kmer_freq.py) I extracted the kmer frequency for all kmers present in the proteome with `k = [4, 6, 8, 10]`. The top 5 kmers for each are:
+
+| k = | 4    | 6      | 8        | 10         |
+|-----|:----:|:------:|:--------:|:----------:|
+|     | EEEE | HTGEKP | IHTGEKPY | QQQQQQQQQQ |
+|     | PPPP | TGEKPY | RIHTGEKP | IHTGEKPYKC |
+|     | AAAA | EEEEEE | QQQQQQQQ | HQRIHTGEKP |
+|     | SSSS | AAAAAA | HTGEKPYK | SSSSSSSSSS |
+|     | LLLL | IHTGEK | TGEKPYKC | EEEEEEEEEE |
+|     | HTGE | PPPPPP | EEEEEEEE | AAAAAAAAAA |
+|     | GEKP | ECGKAF | AAAAAAAA | QRIHTGEKPY |
+|     | TGEK | QQQQQQ | HTGEKPYE | KPYKCEECGK |
+|     | GGGG | SSSSSS | TGEKPYEC | YKCEECGKAF |
+|     | EKPY | EKPYKC | SSSSSSSS | HTGEKPYKCE |
+
+At each _k_ the distribution looks like this example from `k = 10`. Note: The y-axis is log scaled:
+![](output/freqdist_k10.png)
