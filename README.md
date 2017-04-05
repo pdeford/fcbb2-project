@@ -86,3 +86,4 @@ At each _k_ the distribution looks like this example from `k = 10`. Note: The y-
 
 As a basis for my comparisons, I will do some initial comparisons to these summaries listed in table 1 of the netMHC paper:
 ![](images/netmhc_table1.png | width=100)
+<img src="images/netmhc_table1.png" width="100"/>
