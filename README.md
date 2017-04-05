@@ -162,3 +162,5 @@ Again, missing pKa replaced with 50 in the table
 <!---|**N**| -41 |  -28 |--->
 <!---|**H**| -42 |    8 |--->
 <!---|**P**| -46 |  -46 |--->
+
+Download the full human proteome from [UniProt](http://www.uniprot.org/uniprot/?query=reviewed%3Ayes+AND+proteome%3Aup000005640).
