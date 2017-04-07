@@ -87,3 +87,33 @@ At each _k_ the distribution looks like this example from `k = 10`. Note: The y-
 As a basis for my comparisons, I will do some initial comparisons to these summaries listed in table 1 of the netMHC paper:
 
 <img src="images/netmhc_table1.png" width="600"/>
+
+#### April 7, 2017
+
+* I am going to focus on peptides length 9 or 10
+* Given an alphabet of 20 amino acids, this corresponds to 0.5-10 trillion possible peptides.
+* There are only about 20,000 peptides sampled across all human alleles in this data set. This is probably an overestimation as well, because some shorter peptides may be subsequences of the longer peptides.
+* The netMHC paper provides a 6-letter alphabet to cut down on the dimensionality. This new alphabet is as follows:
+  * A = "GAS"
+  * B = "CTDV"
+  * C = "P"
+  * D = "NLIQMEH"
+  * E = "KFRY"
+  * F = "W"
+* This corresponds to only 10-60 million possible peptides.
+* Manual inspection of the 10mer peptides with the highest and lowest affinities for HLA-A-0201, we see closely related peptides.
+  * Highest affinity sequences:
+    - `FLLPLTSLVI` 
+    - `YLFDYPHFEA`
+    - `FLPIIFDAFL`
+    - `LLLEWLAEVV`
+    - `ELYNKPLYEV`
+  * Lowest affinity sequences
+    - `TPGPGVRYPL`
+    - `ALYLVCGERG`
+    - `TNIRQAGVQY`
+    - `RQAGVQYSRA`
+    - `IRQAGVQYSR`
+  * High affinity sequences seem to have `L*EV`, `F*P`.
+  * Low affinity sequences seem to have `GC*Y`.
+  * If these are the significant sequences, they seem to __not be position dependent__. This is significant because it means we can learn a smaller model with few parameters, and then find the best score on any given peptide.
