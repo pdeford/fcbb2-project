@@ -117,3 +117,23 @@ As a basis for my comparisons, I will do some initial comparisons to these summa
   * High affinity sequences seem to have `L*EV`, `F*P`.
   * Low affinity sequences seem to have `GC*Y`.
   * If these are the significant sequences, they seem to __not be position dependent__. This is significant because it means we can learn a smaller model with few parameters, and then find the best score on any given peptide.
+
+#### April 10, 2017
+
+Today I took the datasets I have collected and did a simple classification test to assess baseline performance of each feature. I used ten-fold cross validation, and took the average AUC. As a start I used logistic regression, random forest, and a support vector machine with the _rbf_ kernel, as implemented in `sklearn` in `python`.
+
+
+| Feature          | logit | RFC   | SVM (rbf) |
+|:-----------------|:-----:|:-----:|:---------:|
+| B50_rows         | 0.939 | 0.861 | 0.825     |
+| basic_characters | 0.811 | 0.700 | 0.796     |
+| pKas             | 0.771 | 0.818 | 0.666     |
+| helical          | 0.747 | 0.785 | 0.717     |
+| sigma_properties | 0.842 | 0.841 | 0.517     |
+| hydrophobicity   | 0.849 | 0.843 | 0.506     |
+| bin_AA           | 0.942 | 0.861 | 0.910     |
+| netmhc_surface   | 0.781 | 0.711 | 0.767     |
+| count            | 0.598 | 0.630 | 0.505     |
+| bin_AA/<br/>B50_rows/<br/>sigma_properties | 0.939 | 0.872 | 0.630 |
+| All together     | 0.937 | 0.865 | 0.517     |
+
