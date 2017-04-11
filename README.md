@@ -140,3 +140,27 @@ Today I took the datasets I have collected and did a simple classification test 
 
 Surprisingly, Logistic Regression performed better than the other two methods. Given the complex nature of the problem, this is surprising as Logistic Regression is a linear model. It is also surpising that the best performing feature was just a vector with binary indicators for each amino acid at each position.
 
+Since the indicator for each AA at each position was the best performing feature, I was curious how each AA influenced each position. I used the linear LogIt model, and retrieved the coefficients. Then I normalized the coefficients to range from 0 to 1, sorted by value, and plotted each AA at each position, where the size coincides with the value. Small values are selected against, large values are selected for. The amino acids here are colored by their chemical character. i.e. green are polar molecules, purple and neutral, blue is basic, red is acidic, and black are hydrophobic. 
+
+![](output/logo.png)
+
+As you can see, there seemes to be a selection for basic molecules in general, and against polar or hydrophobic molecules.
+
+This, coupled with the observation from earlier regarding potential positional independence, prompted me to try collecting my features independent of position, by simply summing the vectors. In this approach, the binary indicator would become an accumulator for the number of times an AA occurs in a given sequence, and ignores position completely. (done by setting `flag = False` in the script). The performance is summarized in the table below.
+
+| Feature          | logit | RFC   | SVM (rbf) |
+|:-----------------|:-----:|:-----:|:---------:|
+| bin_AA           | 0.818 | 0.748 | 0.817     |
+| B50_rows         | 0.818 | 0.762 | 0.637     |
+| hydrophobicity   | 0.775 | 0.698 | 0.603     |
+| basic_characters | 0.751 | 0.733 | 0.696     |
+| sigma_properties | 0.742 | 0.690 | 0.575     |
+| helical          | 0.698 | 0.603 | 0.618     |
+| pKas             | 0.685 | 0.664 | 0.690     |
+| count            | 0.598 | 0.612 | 0.505     |
+| netmhc_surface   | 0.580 | 0.526 | 0.548     |
+| ---------------- | ----- | ----- | -----     |
+| bin_AA/<br/>B50_rows/<br/>sigma_properties | 0.818 | 0.760 | 0.631 |
+| All together     | 0.818 | 0.764 | 0.500     |
+
+Some performance is lost, demonstrating the there are indeed positional factors, though not necessarily strong ones.
