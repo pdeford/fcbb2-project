@@ -137,3 +137,5 @@ Today I took the datasets I have collected and did a simple classification test 
 | bin_AA/<br/>B50_rows/<br/>sigma_properties | 0.939 | 0.872 | 0.630 |
 | All together     | 0.937 | 0.865 | 0.517     |
 
+Surprisingly, Logistic Regression performed better than the other two methods. Given the complex nature of the problem, this is surprising as Logistic Regression is a linear model. It is also surpising that the best performing feature was just a vector with binary indicators for each amino acid at each position.
+
