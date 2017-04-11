@@ -16,6 +16,8 @@ sequences = []
 
 counts = pickle.load(open("output/counts_4.p", "rb"))
 
+flag = True
+
 f = open("data/bdata.2009.mhci.public.1.txt")
 f.readline()
 for line in f:
@@ -27,11 +29,16 @@ for line in f:
 		meas = float(fields[6])
 
 		if l == 10:
-			x = []
 			for i,m in enumerate(data_dicts):
-				X[i].append([])
+				if flag:
+					X[i].append([])
+				else:
+					X[i].append([0 for x in m['A']])
 				for aa in sequence:
-					X[i][-1] += m[aa]
+					if flag:
+						X[i][-1] += m[aa]
+					else:
+						X[i][-1] = [sum(x) for x in zip(m[aa], X[i][-1])]
 			c = []
 			for i in range(l-3):
 				kmer = sequence[i:i+4]
@@ -66,16 +73,16 @@ clf3 = SVC()
 
 labels = ["B50_rows", "basic_characters", "pKas", "helical", "sigma_properties", "hydrophobicity", "bin_AA", "netmhc_surface", "count"]
 clfs = ["logit", "RFC  ", "SVM  "]
+data = dict(zip(labels,X))
 
-for i,x in enumerate(X):
-	print labels[i]
+for l in labels:
+	print l
+	x = data[l]
 	x = x[idx]
 	for j,clf in enumerate([clf1, clf2, clf3]):
 		perf = cross_val_score(clf, x, y, cv=10, n_jobs=-1, scoring='roc_auc')
 		print "  {}  {:0.3f}".format(clfs[j], np.mean(perf))
 
-
-data = dict(zip(labels,X))
 custom = ["bin_AA", "B50_rows", "sigma_properties"]
 print "/".join(custom)
 x = np.hstack([data[x] for x in custom])[idx]
@@ -88,6 +95,70 @@ X = np.hstack(X)[idx]
 for j,clf in enumerate([clf1, clf2, clf3]):
 	perf = cross_val_score(clf, X, y, cv=10, n_jobs=-1, scoring='roc_auc')
 	print "  {}  {:0.3f}".format(clfs[j], np.mean(perf))
+
+x = data['bin_AA'][idx]
+perf = cross_val_score(clf1, x, y, cv=10, n_jobs=-1, scoring='roc_auc')
+clf1.fit(x,y)
+#print clf1.coef_.shape
+pwm = clf1.coef_.reshape([-1,20])
+#print pwm
+AAs = "ACDEFGHIKLMNPQRSTVWY"
+AA_index = dict(zip(AAs, range(20)))
+
+
+chemistry_ColorScheme = dict((
+	("GSTYC", "green"), #, "polar"),
+	("NQ", "purple"), #, "neutral"),
+	("KRH", "blue"), #, "basic"),
+	("DE", "red"), #, "acidic"),
+	("PAWFLIMV", "black"), #, "hydrophobic")
+        ))
+
+for key in chemistry_ColorScheme.keys():
+	for n in key:
+		chemistry_ColorScheme[n] = chemistry_ColorScheme[key]
+
+taylor_ColorScheme = dict((
+	('A', '#CCFF00'),
+	('C', '#FFFF00'),
+	('D', '#FF0000'),
+	('E', '#FF0066'),
+	('F', '#00FF66'),
+	('G', '#FF9900'),
+	('H', '#0066FF'),
+	('I', '#66FF00'),
+	('K', '#6600FF'),
+	('L', '#33FF00'),
+	('M', '#00FF00'),
+	('N', '#CC00FF'),
+	('P', '#FFCC00'),
+	('Q', '#FF00CC'),
+	('R', '#0000FF'),
+	('S', '#FF3300'),
+	('T', '#FF6600'),
+	('V', '#99FF00'),
+	('W', '#00CCFF'),
+	('Y', '#00FFCC')
+))
+
+if flag:
+	plt.figure(figsize=(pwm.shape[0]/10,1), frameon=False)
+	for i in range(pwm.shape[0]):
+		row = pwm[i]
+		row = row - min(row)
+		row /= sum(row)
+		row = zip(AAs, row)
+		row.sort(key=lambda x:x[1])
+		y = 0
+		for AA, p in row:
+			plt.text(i + 0.5, y, AA, ha='center', va='baseline', size=int(p*72), 
+				color=chemistry_ColorScheme[AA], family='monospace')
+			y += p
+	plt.xlim(0,pwm.shape[0])
+	plt.axis('off')
+	plt.savefig('output/logo.png', dpi=600)
+
+
 
 # n = X.shape[1]
 # m = int(n**0.5)

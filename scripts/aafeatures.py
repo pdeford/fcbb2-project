@@ -181,7 +181,7 @@ netmhc_surface = {
 AAs = "ACDEFGHIKLMNPQRSTVWY"
 AA_index = dict(zip(AAs, range(20)))
 bin_AA = {}
-for key in AA_index:
+for key in AAs:
 	bin_AA[key] = [1 if x == key else 0 for x in AAs]
 
 
