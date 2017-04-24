@@ -164,3 +164,14 @@ This, coupled with the observation from earlier regarding potential positional i
 | All together     | 0.818 | 0.764 | 0.500     |
 
 Some performance is lost, demonstrating the there are indeed positional factors, though not necessarily strong ones.
+
+#### April 24, 2017
+
+* PMD: Using Recursive Feature Elimination, I was checking to see which types of features were most informative, as well as which positions in the sequence. (`scripts/rfe.py`)
+  - The RFE algorithm, used with a step size of 10, and 3-fold cross validation, 97 out of the 707 position specific features are identified as important.
+  - ![](output/rfe.png)
+  - Each feature was ranked by its importance by the algorithm. The positions of the important features ranked in the top 97 (the number of features identified by RFE) were plotted in a histogram (below). As you can see, they tend to be on the ends of the peptide, or the very center.
+  - ![](output/positions3.png)
+  - In order to get a better idea if there are any patterns in the informative features, I plotted each feature by its position, and colored them based on their rank in the RFE weighting. In the matrix, the darker the color, the higher it is ranked.
+  - ![](output/positionweights.png)
+  - The most important features are mostly from the BLOSUM50 matrix and binary representations of the Amino Acids sequences, and a few helical features.
