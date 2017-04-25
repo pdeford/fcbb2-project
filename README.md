@@ -175,3 +175,30 @@ Some performance is lost, demonstrating the there are indeed positional factors,
   - In order to get a better idea if there are any patterns in the informative features, I plotted each feature by its position, and colored them based on their rank in the RFE weighting. In the matrix, the darker the color, the higher it is ranked.
   - ![](output/positionweights.png)
   - The most important features are mostly from the BLOSUM50 matrix and binary representations of the Amino Acids sequences, and a few helical features.
+
+#### April 25, 2017
+
+* PMD: Since simple sequence features seem to be generally the most informative, and there seems to be some evidence that it is position independent, I decided to look at how explanatory kmers were. To accomplish this, I learned an overall "enrichment" for each kmer. This was the sum of the measurements for each peptide the kmer appears in. Then to score a given sequence, I summed up the composite kmer enrichments. I tried this on two sets:
+  - The first was the full set of peptides and measurements for human HLA-A-0201, length 10 peptides. (Orange)
+  - The second was trained on a random 80% subset of human HLA-A-0201, and tested on the remaining 20%. (Blue)
+  - [`motif.py`](scripts/motif.py)
+  
+ ![](output/kmer_enrichment.png)
+ 
+ Pearson correlation coefficients for composite enrichments vs measured affinity
+ 
+ | K  | Full | 80% |
+|---:|:----:|:---:|
+|  1 | -0.073 | -0.053 |
+|  2 | 0.099 | 0.045 |
+|  3 | 0.594 | 0.230 |
+|  4 | 0.834 | 0.337 |
+|  5 | 0.870 | 0.361 |
+|  6 | 0.891 | 0.349 |
+|  7 | 0.914 | 0.343 |
+|  8 | 0.941 | 0.307 |
+|  9 | 0.971 | 0.277 |
+
+As you can see, it is prone to overtraining. This might indicate that with enough representation of each of the kmers, we might be able to correctly learn the trend, but there are too many kmers to encounter. As such, on the subsetted data `k = 5` performed the best, but the pearson correlation coefficient was only `0.361`.
+
+I will attempt to use a Markov Model to represent the underlying distribution of sequences, in an attempt to estimate the 'enrichments' for the unseen kmers, as you might do with a SELEX experiment. I will also try other strategies for measuring 'enrichment' such as median value instead of sum.
