@@ -201,4 +201,4 @@ Some performance is lost, demonstrating the there are indeed positional factors,
 
 As you can see, it is prone to overtraining. This might indicate that with enough representation of each of the kmers, we might be able to correctly learn the trend, but there are too many kmers to encounter. As such, on the subsetted data `k = 5` performed the best, but the pearson correlation coefficient was only `0.361`.
 
-I will attempt to use a Markov Model to represent the underlying distribution of sequences, in an attempt to estimate the 'enrichments' for the unseen kmers, as you might do with a SELEX experiment. I will also try other strategies for measuring 'enrichment' such as median value instead of sum.
+I will attempt to use a Markov Model to represent the underlying distribution of sequences ([ref](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4265583/)), in an attempt to estimate the 'enrichments' for the unseen kmers, as you might do with a SELEX experiment. I will also try other strategies for measuring 'enrichment' such as median value instead of sum.
